@@ -8,6 +8,7 @@ This repo is the shared memory between Sankar's Claude accounts. Any Claude acco
 |---|---|
 | Website UI/UX redesign (TraceIT monitoring platform) | `website-uiux/` |
 | AROYA Concierge page redesign | `concierge/` |
+| Full memory of account 1 (all notes, both accounts can import) | `memory/ALL-MEMORY.md` |
 
 Never mix their notes. A fact goes only into the folder of the project it belongs to.
 
