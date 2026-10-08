@@ -1,11 +1,12 @@
 # Claude-Memory — handoff between Claude accounts
 
-This repo carries the working context for **two separate projects** so a **different Claude account** can pick up where the current one stopped (for example, when the current account's usage limit runs out).
+This repo carries the working context for **separate projects** so a **different Claude account** can pick up where the current one stopped (for example, when the current account's usage limit runs out).
 
 | Project | Folder |
 |---|---|
 | Website UI/UX redesign | `website-uiux/` |
 | AROYA Concierge page redesign | `concierge/` |
+| TraceIT monitoring platform | `traceit/` |
 
 Each folder has its own `HANDOFF.md` (current state: decisions, requirements, open items, next steps) and its own `log/YYYY-MM-DD.md` (what changed each day). The two projects are kept apart: never mix their notes.
 

@@ -2,12 +2,13 @@
 
 This repo is the shared memory between Sankar's Claude accounts. Any Claude account may be working on these projects, so follow these rules every session.
 
-## The two projects (keep them separate)
+## The projects (keep them separate)
 
 | Project | Folder |
 |---|---|
 | Website UI/UX redesign | `website-uiux/` |
 | AROYA Concierge page redesign | `concierge/` |
+| TraceIT monitoring platform | `traceit/` |
 
 Never mix their notes. A fact goes only into the folder of the project it belongs to.
 
