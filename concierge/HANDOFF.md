@@ -1,6 +1,6 @@
 # Project: AROYA Concierge Page Redesign — Handoff
 
-_Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 28 Sep – 8 Oct 2026)_
+_Last updated: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
 
 > This is a **separate project** from the Website UI/UX redesign (see `../website-uiux/HANDOFF.md`). Record only Concierge work here.
 
@@ -47,6 +47,9 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
 **Behaviour rules**
 - Nothing paid is added without the guest confirming in chat, with names and prices.
 - An explicit removal is final: removed items are never re-added. Recommendations never auto-apply.
+- **Removal is final at family level, and removing leaves the slot empty** (changed from item-level "removal is final" on 8 Oct, after the Ultimate refill bug): removing e.g. "Ultimate Dining" declines that whole bundle/excursion family for that guest; nothing of the same family is added in its place.
+- **Transport/transfer is never an excursion** (8 Oct): classified by the catalogue type code and offered only in a separate Transfers option.
+- **Test fixtures use real catalogue data** (8 Oct): add-on/excursion tests run on a fixture taken from the real UAT catalogue, not invented items.
 - **Add-on rules = the existing Guest Enhancements page** (changed 6 Oct; the earlier "one package per guest" rule was wrong and is removed). The guest chooses which guest each add-on is for ("For everyone / Specific guests"). Only bundles that page applies to everyone (e.g. the drinks package) go to all. Age rules apply (spa 18+).
 - Suggestions: at most 3, one per category, never two of a kind, never transport/transfer offered as an experience. No two overlapping excursions for one guest ("Replace it?").
 - Booked excursions can't be removed online (no Seaware remove call) and show a "contact AROYA" note.
@@ -55,6 +58,11 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
 - One Seaware session per booking; a lost session gives "Your session timed out. Let's re-check your cabin."
 - After a reservation exists, name, DOB and passport are locked (Seaware adds a guest on update instead of replacing). Contact details can be edited, with an "Also update my saved profile" tick box.
 - Destination content: CMS first, then curated/stored guides, then a branded fallback. Nothing is generated live during a guest session. Photos come only from Wikimedia/Wikipedia with CC0, public domain, CC BY or CC BY-SA licences, with attribution, and stay marked "auto" until AROYA approves.
+- **Guest form phone codes** (8 Oct):
+  - the code list is sorted ascending numerically (master-data list and fallback list);
+  - the code is preselected from the guest's nationality; a manual pick is never overwritten; fallback = the saved profile's code, else +966; the picker is searchable.
+- **Copy Traveller 1's details to other travellers** (8 Oct): shared fields (email, phone code + mobile, nationality, country of residence, city, passport issuing country) are prefilled for travellers 2+, editable, with a "Same as Traveller 1" note. Personal fields (title, names, gender, DOB, passport number/expiry) are never copied. If Seaware requires a field to be unique per guest, follow the regular booking flow's rule.
+- **Guest form layout** (8 Oct): email/phone fields show in full (no clipped "+966"); "Call AROYA" and "WhatsApp AROYA" are two side-by-side buttons (no "·" line).
 - The opening options always show on open and after New conversation: "Guide me / I know what I want", then "Sign in / Continue as a guest".
 
 **Deploy / test process (agreed)**
@@ -65,9 +73,21 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
 - Real UAT writes only with Sankar's typed approval, one booking at a time, no second attempt.
 - Test route: **Mediterranean from Alexandria, November 2026 (10 Nov sailing)**. The Jeddah Red Sea sailings have no prices on UAT.
 
-## 3. What is built and where (as of 8 Oct)
+## 3. What is built and where (as of 8 Oct evening)
 
-- **Live on the test site:** build **ecaa3a6** (deployed 8 Oct ~15:27; live browser checks were running at handoff). **Rollback target: 16d5ce0** (fully green) until ecaa3a6 passes.
+- **Live on the test site:** build **20261008-133819-7a93ea0** (commit 7a93ea0), deployed 8 Oct after Sankar typed "confirmed: deploy 7a93ea0 + rerun the content job". All checks green:
+  - security-verify 52 pass / 0 fail / 5 warnings
+  - bundle scans 0
+  - smoke green
+  - first-load matrix 60 passed
+  - Hold journey passed
+  - self-QA EN / AR / WebKit / iPhone / iPad passed
+- **Rollback target: 7a93ea0** (target committed as 809acea). Previous good build: ecaa3a6 (target committed as 9daf566), which went green on 8 Oct and replaced 16d5ce0.
+- **7a93ea0 adds (on top of ecaa3a6):**
+  - email/phone fields shown in full; "+966" not clipped
+  - Call / WhatsApp as two side-by-side buttons
+  - the last English lines on the Arabic screen translated (reservation created, extras question, welcome back)
+  - new test `e2e/v12-contact-form.mock.spec.js` (1366×768 and 1920×1080, EN + AR; fails on field overflow, a clipped code, button layout, or codes out of order)
 - **ecaa3a6 contains:**
   - the 0.8× scale
   - destination info always showing (11 test-sailing ports covered EN + AR)
@@ -78,6 +98,10 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
   - place-photo support
   - the Kusadasi KUS/KAS mapping by sailing code
   - an unsaved guest form that stays open while the reservation is being created
+- **Local, not deployed yet:**
+  - **437c4c1:** phone codes sorted ascending numerically.
+  - **bb59845:** nationality-based code preselect + Traveller 1 shared-details copy. The full mocked set was running at the last IDE report.
+  - **Ultimate refill / transport fix:** prompt sent to the IDE; not yet coded or reported.
 - **Earlier work, all in the code:**
   - **v5c/v5d/v5e:** the 30/70 layout, board, payment new window, add-on rules, edit-guest prefill, dedupe of saved travellers, header in the chat column.
   - **Fix pass on 7–8 Oct:**
@@ -94,7 +118,10 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
     - rate limits 5 per session and 20 per IP per hour
     - audit log
     - refused outside UAT
-- **Content job:** built, with photo fetching (207 places across 52 ports; 37 of 44 test-sailing places found a photo). Approved by Sankar for a one-off run on the VM after the ecaa3a6 checks finish; not on a nightly schedule yet.
+- **Content job:** built, with photo fetching (Wikipedia lead image, then Wikimedia Commons search; CC0/PD/CC BY/CC BY-SA with attribution; status "auto"). Ran on the VM after ecaa3a6, then reran after 7a93ea0 at a 2.5 s request pace:
+  - **164 of 207 places now have their own photo** (162 → 164 on the rerun; ITCAG and OMMCT improved). The other **43 show the port photo**. Throttling is not the cause: these need AROYA's images.
+  - Backup before the rerun: `/opt/aroya-broker/backups/destinations-before-rerun-20261008.tgz` (on the VM).
+  - The nightly schedule is still OFF.
 - **Redis:** OFF until Sankar sets a password on the VM (steps in `docs/production/redis-secret-steps.md`). The broker uses its in-memory cache meanwhile, so guests lose their session on each deploy. The old Redis was internal-only, never exposed.
 - **Useful repo docs:**
   - `docs/concierge/aroya-inputs-needed.md`
@@ -104,7 +131,7 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
   - `docs/qa/` (prompts, run logs, visual reviews)
   - `docs/production/runbook.md`
 - **Screenshots** (Sankar's PC): `Downloads\AROYA_Concierge_Test_Deliverables\screens\...` (v5e, v5h, zoom80-baseline).
-- **Tests at last report:** 1,894 unit tests pass; broker 123–133 pass; security-verify 52 pass / 0 fail; the mocked blocking set is green.
+- **Tests at last report:** 1,894+ unit tests pass; broker 123–133 pass; security-verify 52 pass / 0 fail / 5 warnings on 7a93ea0; the mocked blocking set was green on 7a93ea0 and was running on bb59845.
 
 ## 4. API / BFF status
 
@@ -117,16 +144,30 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
 - **Pay proof** (one real booking → Teller window shows the TEST notice → no card → cancel): **NOT done yet.** Needs Sankar's own typed approval, e.g. "approved: 1 booking on <build> for the Pay proof". If the TEST notice is missing, the fail-safe re-locks payment.
 - Seaware has no call to remove an excursion or to update an existing guest's identity (asked AROYA).
 
-## 5. Known defects / gaps (open)
+## 5. Known defects / gaps
 
-- Guest form: the email and phone fields cut off text; the "Call AROYA · WhatsApp AROYA" lines stack awkwardly (queued for the next pass).
-- Some auto photo matches are weak (e.g. a painting for the Palace of the Grand Master); 7 of 44 places have no photo (the port photo is used instead).
+**Open: CRITICAL (found by Sankar, 8 Oct)**
+- **Ultimate bundle refill:** removing "Ultimate Dining" adds another "Ultimate" bundle in its place; the same refill happens for excursions. Breaks "removals are final". Fix prompt sent: reproduce on live, family-level declined list, no refill, real-catalogue fixture tests, live screenshots.
+- **Transport added as excursions:** transfer/transport items still appear and get added as excursions. Fix prompt sent: classify by type code into a separate Transfers option.
+
+**Open: other**
+- 43 of 207 places have no own photo (the port photo shows); needs AROYA images. Some auto matches are weak (e.g. a painting for the Palace of the Grand Master).
 - The Arabic review of destination text needs a native reviewer.
 - "Total so far" shows "From SAR x" until priced. Verify on the live site.
 - No "with flights" journey testable (the Mediterranean sailing sells no flight fare on UAT).
-- Classic booking promo-0 fix: confirm it shipped (it was in the 7 Oct fix pass list).
+- Classic booking promo-0 fix: confirm it shipped.
 - Reply speed: the true send-to-reply time was never measured on the live site (the "0.1 s" figure was server-only).
 - Holdout accuracy: v5 scored 91.7% (target 95%); holdout-v6 is planned.
+
+**Fixed on 8 Oct (live in 7a93ea0)**
+- Guest form email/phone fields cut off text and clipped "+966" → fixed.
+- "Call AROYA · WhatsApp AROYA" stacked awkwardly → two side-by-side buttons.
+- English lines left on the Arabic screen (reservation created, extras question, welcome back) → translated.
+- Guest form closed while the reservation was being created, losing unsaved input → stays open (ecaa3a6).
+- Kusadasi KUS vs KAS mix-up → mapped by sailing code (ecaa3a6).
+
+**Fixed locally (not deployed)**
+- Phone codes not in order → sorted ascending (437c4c1).
 
 ## 6. AROYA inputs needed (send via Fasih)
 
@@ -135,7 +176,7 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
 3. Is there a call to update an existing guest's name/DOB/passport after booking?
 4. Is there a call to remove an excursion from a booking?
 5. Remove the blank "test" and "hey" add-ons from the CMS.
-6. Images for add-ons and excursions.
+6. Images for add-ons and excursions, and approved images for the **43 places** that have no own photo (list to be sent with the next IDE report).
 7. Vector logo, final Arabic font and brand pattern files.
 8. A native Arabic reviewer for destination descriptions, and approval of the auto-sourced photos/guides.
 9. Kusadasi port code (KUS vs KAS) confirmation.
@@ -148,8 +189,13 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
 - [x] Prefill guest details / saved-travellers picker with single-field edit
 - [x] Back-navigation (look-back via board tiles)
 - [x] Screenshot-based UI testing (live screenshots each deploy)
-- [ ] ecaa3a6 live checks → move the rollback target → run the content job once → Arabic live screenshots past extras
-- [ ] Guest form field width + Call/WhatsApp buttons
+- [x] ecaa3a6 live checks → rollback target moved → content job run once
+- [x] Guest form field width + Call/WhatsApp buttons (7a93ea0, live)
+- [x] Content rerun (164/207)
+- [ ] **CRITICAL: Ultimate bundle / excursion refill after removal + transport as excursions** (prompt sent)
+- [ ] Phone code sort (437c4c1) + nationality preselect + Traveller 1 copy (bb59845): mocked set → "Ready to ship" → Sankar types the deploy approval
+- [ ] 43-places list to AROYA for images
+- [ ] Arabic live screenshots past extras
 - [ ] Pay proof (needs Sankar's typed approval)
 - [ ] Redis password (Sankar on the VM) → turn Redis on
 - [ ] Content job nightly schedule + AROYA approval of auto content
@@ -159,20 +205,18 @@ _Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 2
 
 ## 8. Next steps (exact)
 
-1. Wait for the IDE's ecaa3a6 report. If green: the IDE moves the rollback target to ecaa3a6, runs the content job once, and takes Arabic live screenshots.
-2. Send the IDE the queued fix (pasting is fine): widen the guest form email/phone fields, make "Call AROYA · WhatsApp AROYA" two side-by-side buttons, and check screenshots at 1366×768 and 1920×1080, EN + AR. One deploy.
-3. Sankar tests on his 13-inch laptop at 100% zoom:
-   - the Mediterranean → Alexandria → Nov 2026 → 10 Nov route
-   - the 0.8× sizing
-   - destination text and photos
-   - the board doesn't scroll
-   - guest cards and the Edit prefill
-   - removals stay removed
-   - no duplicate suggestions
-   - the opening options
-   - stop before Hold/Pay
-4. If Sankar wants the Pay proof, he types the approval line himself.
-5. Send Fasih the progress email with the AROYA inputs list (section 6), with no AI/IDE/hash wording.
+1. Wait for the IDE's "Ready to ship" report on bb59845. It must also include the **Ultimate refill + transport fix** (with real-catalogue fixture tests and live screenshots) and the **43-places list**. If the refill fix is missing, send it back before deploying.
+2. Sankar types the approval himself: `confirmed: deploy <build>` (the build number is in the IDE's "Ready to ship" line).
+3. After it is live and green, Sankar tests:
+   - add Ultimate Dining → remove it → nothing replaces it; repeat for an excursion
+   - no transport/transfer items in Excursions; they show under Transfers only
+   - Guests: the phone code follows nationality; a manual pick stays; codes are in ascending order
+   - Traveller 2+ get Traveller 1's email/phone/nationality/residence/city/issuing country with a "Same as Traveller 1" note, editable; names, DOB, gender and passport are blank
+   - EN + AR, 13-inch laptop at 100% zoom, stop before Hold/Pay
+4. Send Fasih the progress email (drafted in the architect chat). Once bb59845 is live, move the nationality/copy items from "In progress" to "Completed". Include the 43 photos and Kusadasi in the inputs.
+5. Optional: the Pay proof (Sankar types "approved: 1 booking on <build> for the Pay proof").
+6. Sankar: set the Redis password on the VM (`docs/production/redis-secret-steps.md`), then the IDE turns Redis on.
+7. Later: content job nightly schedule (after AROYA approves the auto content), honest live speed measurement, holdout-v6, customer test script docx, journey video.
 
 ## 9. Where things live
 
