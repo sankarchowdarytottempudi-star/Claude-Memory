@@ -1,78 +1,188 @@
 # Project: AROYA Concierge Page Redesign — Handoff
 
-_Last updated: 2026-10-08 (refreshed daily ~10:50 IST)_
+_Last updated: 2026-10-08 (full history upload from the Cowork architect chat, 28 Sep – 8 Oct 2026)_
 
 > This is a **separate project** from the Website UI/UX redesign (see `../website-uiux/HANDOFF.md`). Record only Concierge work here.
+
+## 0. How the work is run (read first)
+
+- **Roles:** Sankar ferries prompts between the "architect" Claude chat (writes IDE prompts, emails and decisions) and the **IDE agent (Claude Code in VS Code on Sankar's PC)**, which writes the code, tests and deploys.
+- **IDE working folder:** `C:\Users\tlsch\Downloads\Aroya_Concierge_export` (clean export, no old history). Old folders are read-only reference.
+- **Long prompts:** save them as `.md` files (in Downloads or `docs/qa/` in the repo) and send the IDE a one-liner like "Read <path> and execute it". Never attach the big design HTML (`docs/design/aroya-concierge-design-v12.html`, 2.8 MB); it caused "prompt too long". Use `aroya-concierge-design-v12-code-only.html`.
+- **IDE status format:** every IDE update starts with "Live now / Deploying / Last rollback".
+- **Approvals the IDE needs typed by Sankar himself:** the IDE ignores pasted approvals for deploys, UAT writes and server jobs. Sankar must type a short line himself, e.g. "confirmed: deploy <build> + run the content job".
+- **Customer emails (Fasih):** never mention AI, the IDE, Claude, commit hashes or infrastructure. Use "in progress / completed / next steps / inputs needed".
 
 ## 1. Who and what
 
 - **Owner:** Sankar (Leela Sankar Chowdary Tottempudi). He has a finance background and is not hands-on with code, so give click-by-click steps for anything he must do himself.
-- **Customer:** AROYA Cruises. The work runs as a separate vendor engagement with **no link to royal-cyber-inc**.
-- **What it is:** the AI Concierge booking panel, where a guest chats to choose a voyage, cabin, add-ons and shore excursions, and books.
-- **Code repo:** `sankarchowdarytottempudi-star/Aroya_Concierge`
-- **UAT site:** app-uat.aroyacruise.com (also http://8.213.82.160/en). UAT is a replica of production.
-- **Team as presented to the customer:** 2 developers and 2 QA. QA-round status updates go to Fasih (Round 2 first, then later rounds).
+- **Customer:** AROYA Cruises. The work runs as a separate vendor engagement with **no link to royal-cyber-inc**. Client head: Fasih.
+- **What it is:** the AI Concierge booking panel. A guest chats to choose a voyage, cabin, add-ons and shore excursions, and books.
+- **Code repo:** `sankarchowdarytottempudi-star/Aroya_Concierge` (private). Branches: `main` and `concierge-intelligence`; both are pushed.
+- **Test site (ours):** https://aroya-test.tottechsolutions.com, on a VM with Caddy + Docker, SSH key only, and a red "Test environment" banner.
+- **AROYA UAT booking system:** Seaware/Versonix GraphQL via MuleSoft. AROYA UAT site: app-uat.aroyacruise.com. UAT is a replica of production.
+- **Team as presented to the customer:** 2 developers and 2 QA.
 
 ## 2. Decisions already made (don't reopen)
 
-- **Security / BFF:** all real AROYA API credentials, tokens and secrets live on a server-side broker (BFF). The browser only calls BFF APIs. UAT and production use the same broker setup. AROYA approved this on the condition that their details are never exposed.
-- **Design:** AROYA approved **Option 1 "Champagne"** (`AROYA-Concierge-1-Champagne.html`). The design files are on Sankar's PC in `Downloads\AROYA-Concierge-Designs`. The design goes to the IDE Claude to implement with fully working APIs.
-- **Knowledge base:** stored in a GPU-based store that AROYA will provide. The infrastructure must support it, plus an agent that reads all conversations to give accurate answers.
-- **Presentations for AROYA:** follow the customer's own theme (their "2025 Cruise Line Guest Digital Journey" deck) and improvise on it, not a generic look. Don't address the audience as "you/we"; name the parties instead (for example "AROYA", "RC team").
+**Security / architecture**
+- The BFF broker holds all AROYA credentials (root-only env file on the VM). The browser only calls `/bff/v1/...`. UAT and production use the same broker setup. AROYA approved this on the condition that their details are never exposed.
+- Secrets are never pasted in chat, prompts or the repo; Sankar enters them on the server himself. gitleaks and the large-file guard run before every push. Push only to the private repo; never rewrite or roll back the old royal-cyber repo.
+- Never touch AROYA production.
 
-## 3. Requirements (Sankar, 5 Oct 2026)
+**Design**
+- AROYA approved design direction "Champagne". The build is the **v12 "Champagne · Cinema"** design (flag `conciergeFlags.designV12`, ON on the test site) with AROYA branding: Krub font, navy #003083, sea blue #0090D0, teal #1CA8C8. The stage (right side) is always **dark** (a light stage was tried and Sankar rejected it).
+- **Layout: 30% chat / 70% stage** (changed from 40/60 on 6 Oct).
+  - Chat column: min 400 px, max 520 px.
+  - The top header (logo, New conversation, account, close, "⋯" menu with sound/theme/language) sits only above the chat column.
+  - The stage is full window height. No Trip…Pay step bar on the stage.
+  - The total line ("SAR x · 2A 1C · Breakup ›") sits in the chat column above the message box.
+- **Stage top:** an auto-playing destination showcase for the chosen voyage. Each port shows a description, a "Why visit" line and best places with photos, and stays readable on any image. When a section is active, it shrinks to a strip that still shows the port, "Why visit" and "More about <port>".
+- **Stage bottom:** a fixed "journey board" that **never scrolls**, with 8 parts: Voyage, Cabin, Guests (double width), Add-ons, Excursions, Price breakup (double width).
+  - The current step's part is large; the others are compact tiles.
+  - No ‹ › arrows are needed to see content. Guests show a card list on the left and a form on the right; add-ons and excursions show a grid with tabs.
+- **Sizing:** the whole Concierge is at **0.8× scale**: one token `--concierge-scale: 0.8` for both sides. Sankar found 80% browser zoom fitted best.
+- **Payment:** payment options only in the chat. "Pay full" opens the payment provider (Teller) in a **new window** (changed from same-tab on 6 Oct). Confirmation shows only when the broker confirms payment, then the full-width booking summary on the stage.
 
-**Layout**
-- Chat side is 40% of the screen; the stage is 60%. The stage stays **dark**.
-- The stage is split 50/50 horizontally:
-  - **Top half:** an auto-playing, modern, animated showcase of the chosen voyage's ports, their best places, specialities and images.
-  - **Bottom half:** the working panel for whatever the guest is doing in the chat.
+**Behaviour rules**
+- Nothing paid is added without the guest confirming in chat, with names and prices.
+- An explicit removal is final: removed items are never re-added. Recommendations never auto-apply.
+- **Add-on rules = the existing Guest Enhancements page** (changed 6 Oct; the earlier "one package per guest" rule was wrong and is removed). The guest chooses which guest each add-on is for ("For everyone / Specific guests"). Only bundles that page applies to everyone (e.g. the drinks package) go to all. Age rules apply (spa 18+).
+- Suggestions: at most 3, one per category, never two of a kind, never transport/transfer offered as an experience. No two overlapping excursions for one guest ("Replace it?").
+- Booked excursions can't be removed online (no Seaware remove call) and show a "contact AROYA" note.
+- "Low budget cabin" and similar words lead to one direct recommendation (lowest price) with the option to change it.
+- A party size stated in words beats the model's guess (e.g. "my wife, me and my son" = 2 adults + 1 child).
+- One Seaware session per booking; a lost session gives "Your session timed out. Let's re-check your cabin."
+- After a reservation exists, name, DOB and passport are locked (Seaware adds a guest on update instead of replacing). Contact details can be edited, with an "Also update my saved profile" tick box.
+- Destination content: CMS first, then curated/stored guides, then a branded fallback. Nothing is generated live during a guest session. Photos come only from Wikimedia/Wikipedia with CC0, public domain, CC BY or CC BY-SA licences, with attribution, and stay marked "auto" until AROYA approves.
+- The opening options always show on open and after New conversation: "Guide me / I know what I want", then "Sign in / Continue as a guest".
 
-**Behaviour**
-- The chat is good but **too slow**, and its AI answers are **not accurate enough**. Both need fixing.
-- Preference words like "low budget cabin" lead to a direct suggestion ("this is our lowest cabin", changeable by the guest), not a picker.
-- Whatever the chat shows (voyage, cabin, add-ons) also shows on the stage. Items can be removed from either side.
-- From any step (for example Guests), the guest can go back to view or change an earlier choice such as the package.
-- Saved travellers from earlier reservations (for example 13 of them) show on the stage to pick from. An edit icon expands a guest with prefilled details, and any single field can be changed.
+**Deploy / test process (agreed)**
+- Every deploy runs from a clean copy of the commit, with a committed test manifest (`deploy/test-vm/live-manifest.json`) and a pre-deploy security dry run.
+- Blocking checks: build/deploy, bundle scans (0 credentials), security-verify 0 FAIL, the end-to-end journey to Pay (mocks) and to Hold (live), and chat smoke. Everything else is report-only.
+- Any blocking failure leads to an automatic rollback. Rollback first re-locks payment to runner-only.
+- The IDE must look at live screenshots (EN + AR, 1366×768, 1920×1080, iPhone) and fix forward. Testing is never code-only.
+- Real UAT writes only with Sankar's typed approval, one booking at a time, no second attempt.
+- Test route: **Mediterranean from Alexandria, November 2026 (10 Nov sailing)**. The Jeddah Red Sea sailings have no prices on UAT.
 
-**Content and speed**
-- Destination content comes from the CMS first. Where it's thin, a server-side background job, independent of the Concierge, gathers it from the web and open sources with AI and stores it.
-- CMS data is cached in Redis and refreshed every 30 minutes. Images are cached for speed.
+## 3. What is built and where (as of 8 Oct)
 
-**Smart selling**
-- Track guest price behaviour (voyage × cabin price-tier combinations) to recommend add-ons and shore excursions to similar guests.
-- Offer a one-step suggestion: voyage + cabin + add-on + shore excursion.
+- **Live on the test site:** build **ecaa3a6** (deployed 8 Oct ~15:27; live browser checks were running at handoff). **Rollback target: 16d5ce0** (fully green) until ecaa3a6 passes.
+- **ecaa3a6 contains:**
+  - the 0.8× scale
+  - destination info always showing (11 test-sailing ports covered EN + AR)
+  - the non-scrolling board
+  - guest cards restored
+  - the banner and "From SAR x" fixes
+  - 30 more Arabic Concierge lines
+  - place-photo support
+  - the Kusadasi KUS/KAS mapping by sailing code
+  - an unsaved guest form that stays open while the reservation is being created
+- **Earlier work, all in the code:**
+  - **v5c/v5d/v5e:** the 30/70 layout, board, payment new window, add-on rules, edit-guest prefill, dedupe of saved travellers, header in the chat column.
+  - **Fix pass on 7–8 Oct:**
+    - removals are final
+    - suggestions de-duplicated
+    - excursion conflict check
+    - opening options restored
+    - 13-inch layout
+    - the "⋯" menu fix
+    - promo-0 fare fix ("Cruise Only")
+  - **Payment guards in the broker (security-verify P1–P5):**
+    - own booking only
+    - test mode forced
+    - rate limits 5 per session and 20 per IP per hour
+    - audit log
+    - refused outside UAT
+- **Content job:** built, with photo fetching (207 places across 52 ports; 37 of 44 test-sailing places found a photo). Approved by Sankar for a one-off run on the VM after the ecaa3a6 checks finish; not on a nightly schedule yet.
+- **Redis:** OFF until Sankar sets a password on the VM (steps in `docs/production/redis-secret-steps.md`). The broker uses its in-memory cache meanwhile, so guests lose their session on each deploy. The old Redis was internal-only, never exposed.
+- **Useful repo docs:**
+  - `docs/concierge/aroya-inputs-needed.md`
+  - `docs/concierge/addon-rules.md`
+  - `docs/concierge/rca-session-context.md`
+  - `docs/concierge/master-data-gaps.md`
+  - `docs/qa/` (prompts, run logs, visual reviews)
+  - `docs/production/runbook.md`
+- **Screenshots** (Sankar's PC): `Downloads\AROYA_Concierge_Test_Deliverables\screens\...` (v5e, v5h, zoom80-baseline).
+- **Tests at last report:** 1,894 unit tests pass; broker 123–133 pass; security-verify 52 pass / 0 fail; the mocked blocking set is green.
 
-**Testing**
-- Testing must include looking at real screenshots in the browser and judging how the screen looks, not just checking the code.
+## 4. API / BFF status
 
-## 4. Known defects
+- BFF broker live with the payment guards above. The payment page is open to plain visitors on the test site only, guarded; `patches/pay-testers.patch` is obsolete and unapplied.
+- **UAT bookings:**
+  - 23693 is CANCELLED (verified)
+  - -27480779 is a temporary booking that expires on its own
+  - 23574 was cancelled earlier by AROYA
+  - Stored holds (OFFER) do NOT expire on their own (asked AROYA to confirm).
+- **Pay proof** (one real booking → Teller window shows the TEST notice → no card → cancel): **NOT done yet.** Needs Sankar's own typed approval, e.g. "approved: 1 booking on <build> for the Pay proof". If the TEST notice is missing, the fail-safe re-locks payment.
+- Seaware has no call to remove an excursion or to update an existing guest's identity (asked AROYA).
 
-- Logged-in guests are asked for their details again each time. Fix by prefilling from the previous reservation.
-- Booking used to reach payment but now fails when storing the reservation. Showing "reservation stored, reopen to pay" without a confirmed booking is wrong.
+## 5. Known defects / gaps (open)
 
-## 5. Open items
+- Guest form: the email and phone fields cut off text; the "Call AROYA · WhatsApp AROYA" lines stack awkwardly (queued for the next pass).
+- Some auto photo matches are weak (e.g. a painting for the Palace of the Grand Master); 7 of 44 places have no photo (the port photo is used instead).
+- The Arabic review of destination text needs a native reviewer.
+- "Total so far" shows "From SAR x" until priced. Verify on the live site.
+- No "with flights" journey testable (the Mediterranean sailing sells no flight fare on UAT).
+- Classic booking promo-0 fix: confirm it shipped (it was in the 7 Oct fix pass list).
+- Reply speed: the true send-to-reply time was never measured on the live site (the "0.1 s" figure was server-only).
+- Holdout accuracy: v5 scored 91.7% (target 95%); holdout-v6 is planned.
 
-- [ ] Fix chat speed and answer accuracy.
-- [ ] Fix the booking failure at the reservation-storing step.
-- [ ] Prefill guest details for logged-in guests.
-- [ ] Build the 50/50 stage (port showcase on top, working panel below) on the Champagne design.
-- [ ] CMS + background content job + Redis 30-minute cache.
-- [ ] Saved-travellers picker with single-field edit.
-- [ ] Back-navigation to earlier steps.
-- [ ] Screenshot-based UI testing on UAT.
+## 6. AROYA inputs needed (send via Fasih)
 
-## 6. Next steps
+1. Do stored holds on UAT expire on their own, or need a manual cancel?
+2. Can inventory be loaded for the Jeddah Red Sea sailings (30 Sep / 3 Oct 2027 show no prices)?
+3. Is there a call to update an existing guest's name/DOB/passport after booking?
+4. Is there a call to remove an excursion from a booking?
+5. Remove the blank "test" and "hey" add-ons from the CMS.
+6. Images for add-ons and excursions.
+7. Vector logo, final Arabic font and brand pattern files.
+8. A native Arabic reviewer for destination descriptions, and approval of the auto-sourced photos/guides.
+9. Kusadasi port code (KUS vs KAS) confirmation.
+10. Confirmation that the 14 old credentials were rotated.
 
-1. Implement the Champagne design in `Aroya_Concierge` with working APIs through the BFF.
-2. Fix the two known defects first, since they block real bookings.
-3. Run screenshot-based tests on UAT, then send Fasih the next QA-round status.
+## 7. Open items
 
-## 7. Where things live
+- [x] Chat/stage layout (30/70, board, showcase)
+- [x] Fix the booking failure at the reservation-storing step
+- [x] Prefill guest details / saved-travellers picker with single-field edit
+- [x] Back-navigation (look-back via board tiles)
+- [x] Screenshot-based UI testing (live screenshots each deploy)
+- [ ] ecaa3a6 live checks → move the rollback target → run the content job once → Arabic live screenshots past extras
+- [ ] Guest form field width + Call/WhatsApp buttons
+- [ ] Pay proof (needs Sankar's typed approval)
+- [ ] Redis password (Sankar on the VM) → turn Redis on
+- [ ] Content job nightly schedule + AROYA approval of auto content
+- [ ] Honest live speed measurement; holdout-v6
+- [ ] Updated customer test script docx; journey video
+- [ ] Smart-selling (price-behaviour recommendations) — not started
+
+## 8. Next steps (exact)
+
+1. Wait for the IDE's ecaa3a6 report. If green: the IDE moves the rollback target to ecaa3a6, runs the content job once, and takes Arabic live screenshots.
+2. Send the IDE the queued fix (pasting is fine): widen the guest form email/phone fields, make "Call AROYA · WhatsApp AROYA" two side-by-side buttons, and check screenshots at 1366×768 and 1920×1080, EN + AR. One deploy.
+3. Sankar tests on his 13-inch laptop at 100% zoom:
+   - the Mediterranean → Alexandria → Nov 2026 → 10 Nov route
+   - the 0.8× sizing
+   - destination text and photos
+   - the board doesn't scroll
+   - guest cards and the Edit prefill
+   - removals stay removed
+   - no duplicate suggestions
+   - the opening options
+   - stop before Hold/Pay
+4. If Sankar wants the Pay proof, he types the approval line himself.
+5. Send Fasih the progress email with the AROYA inputs list (section 6), with no AI/IDE/hash wording.
+
+## 9. Where things live
 
 | Item | Location |
 |---|---|
-| Code | github.com/sankarchowdarytottempudi-star/Aroya_Concierge |
-| Approved design file | Sankar's PC: `Downloads\AROYA-Concierge-Designs\AROYA-Concierge-1-Champagne.html` |
-| UAT | app-uat.aroyacruise.com |
+| Code | github.com/sankarchowdarytottempudi-star/Aroya_Concierge (`main`, `concierge-intelligence`) |
+| IDE working copy | Sankar's PC: `C:\Users\tlsch\Downloads\Aroya_Concierge_export` |
+| Design files | repo `docs/design/` (v12; use the code-only HTML); Sankar's PC `Downloads\AROYA-Concierge-Designs` |
+| Designer brief | Claude Docs artifact "AROYA Concierge — Design Requirements" |
+| Test site | https://aroya-test.tottechsolutions.com |
+| AROYA UAT | app-uat.aroyacruise.com |
+| Test screenshots | Sankar's PC: `Downloads\AROYA_Concierge_Test_Deliverables\screens\` |
 | Daily change log | `concierge/log/` in this repo |
