@@ -6,9 +6,8 @@ This repo is the shared memory between Sankar's Claude accounts. Any Claude acco
 
 | Project | Folder |
 |---|---|
-| Website UI/UX redesign | `website-uiux/` |
+| Website UI/UX redesign (TraceIT monitoring platform) | `website-uiux/` |
 | AROYA Concierge page redesign | `concierge/` |
-| TraceIT monitoring platform | `traceit/` |
 
 Never mix their notes. A fact goes only into the folder of the project it belongs to.
 

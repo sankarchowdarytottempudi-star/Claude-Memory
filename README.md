@@ -4,9 +4,8 @@ This repo carries the working context for **separate projects** so a **different
 
 | Project | Folder |
 |---|---|
-| Website UI/UX redesign | `website-uiux/` |
+| Website UI/UX redesign (TraceIT monitoring platform) | `website-uiux/` |
 | AROYA Concierge page redesign | `concierge/` |
-| TraceIT monitoring platform | `traceit/` |
 
 Each folder has its own `HANDOFF.md` (current state: decisions, requirements, open items, next steps) and its own `log/YYYY-MM-DD.md` (what changed each day). The two projects are kept apart: never mix their notes.
 
