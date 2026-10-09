@@ -1,6 +1,6 @@
 # Full memory export — account 1 (sankarchowdary.tottempudi@gmail.com)
 
-_Exported: 2026-10-08. Refreshed daily by account 1's scheduled task._
+_Exported: 2026-10-09. Refreshed daily by account 1's scheduled task._
 
 This is everything Claude remembers about Sankar in account 1, copied file by file. Each `### /path.md` section below is one memory file with its original content.
 
@@ -74,6 +74,22 @@ aliases: [AROYA Concierge, Aroya Cruises Reservation Website Revamp, AROYA]
 - The stage stays dark.
 - Testing must include looking at real screenshots in the browser and judging how the screen is presented, not just checking the code.
 [stated] Concierge state as of 8 Oct 2026 (full history in Claude-Memory repo concierge/HANDOFF.md): layout 30% chat / 70% stage (changed from 40/60); "Pay full" opens Teller in a new window (changed from same-tab); add-on rules follow the Guest Enhancements page; whole Concierge at 0.8× scale; test site aroya-test.tottechsolutions.com; IDE (Claude Code in VS Code) works in C:\Users\tlsch\Downloads\Aroya_Concierge_export; live build ecaa3a6, rollback target 16d5ce0; Pay proof still needs Sankar's own typed approval
+[stated] Concierge decisions 8 Oct 2026 evening: removal is final at FAMILY level and leaves the slot empty (changed from item-level) — removing e.g. "Ultimate Dining" declines that whole bundle/excursion family, nothing refilled; transport/transfer is never an excursion, offered only in a separate Transfers option; add-on/excursion tests use real UAT catalogue fixtures; guest form phone codes sorted ascending, preselected from nationality (manual pick never overwritten, fallback saved profile code else +966); Traveller 1's shared fields (email, phone, nationality, residence, city, passport issuing country) copied to travellers 2+, personal fields never copied
+[stated] Concierge status 8 Oct evening: live build 7a93ea0 (also the rollback target, previously ecaa3a6); 437c4c1 and bb59845 built locally, not deployed; CRITICAL open defects: Ultimate bundle refill after removal and transport added as excursions (fix prompt sent to IDE); 164 of 207 places have own photo, 43 need AROYA images
+```
+
+### /areas/claude-memory-sync.md
+
+```
+---
+name: claude-memory-sync
+description: Sankar's cross-account Claude memory sync via GitHub repo Claude-Memory — two Claude accounts, project handoffs and full memory export
+aliases: [Claude-Memory, memory sync, sync memory, account 2, other Claude account]
+---
+- [stated] Uses two Claude accounts: this one (sankarchowdary.tottempudi@gmail.com) and a second one (tlschowdary93@gmail.com), and switches to the second when this account's usage limit runs out
+- [stated] Chose his private GitHub repo sankarchowdarytottempudi-star/Claude-Memory as the bridge between the accounts; it holds project handoffs (website-uiux/ for [[website-uiux-redesign]], concierge/ for [[aroya-reservation-revamp]]) and a full export of this account's memory (memory/ALL-MEMORY.md)
+- [stated] Wants this account's entire memory, including health and personal notes, available to the second account so nothing is lost
+- [stated] Second account works through Claude Code on the web with GitHub connected (plain chats there can't push)
 ```
 
 ### /areas/website-uiux-redesign.md
@@ -86,6 +102,9 @@ aliases: [Website UI/UX redesign, website redesign, UI/UX redesign, TraceIT rede
 ---
 - [stated] "Website UI/UX redesign" is the TraceIT (Pulsedeck) monitoring platform work — see [[traceit]]; it is its own project, separate from the [[aroya-reservation-revamp]] Concierge page redesign; keep their notes apart
 - [stated] Cross-account handoff for this project lives in GitHub repo sankarchowdarytottempudi-star/Claude-Memory, folder website-uiux/ (HANDOFF.md + log/), so another Claude account can continue if this account's usage limit runs out; a daily scheduled task syncs it
+- [stated] TraceIT state 8 Oct 2026 evening: live build 45be2cdca (page-click analytics and "By system" removed, revenue step 1 tables with RLS, dashboards grouped by connection type); rollback target baedebe58; gate 673607ad6 (local-time sweep + Mule ship stream to Graylog) running; revenue dashboard step 2 (Summary + Buckets tabs) written and tested, awaiting commit; relay agent on graylog-01 decommissioned
+- [stated] TraceIT decisions 8 Oct: Custom Query dashboard uses CodeMirror (changed from Monaco); only Owner/Admin write/save SQL, Analyst/Workspace Admin edit own, everyone else runs saved queries read-only with 30 s timeout, 10k row cap, audit and PII masking (changed from all users writing); revenue counts completed bookings only, SAR or USD never mixed, guests identified by booking reference not email; analytics moved from page-click tracking to transaction-based revenue
+- [stated] TraceIT open questions for Sankar (8 Oct): split db-sys-api cards by Runtime Fabric target (yes/no)? Nightly migration scope — Backblaze backup/restore verification or a DB migration? Graylog admin password was pasted in chat and should be rotated, with a read-only Reader user
 ```
 
 ### /areas/traceit.md

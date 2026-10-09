@@ -1,6 +1,6 @@
 # Project: AROYA Concierge Page Redesign — Handoff
 
-_Last updated: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
+_Last updated: 2026-10-09 (account 1 daily sync: no new activity since the 8 Oct evening sync; state below unchanged). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
 
 > This is a **separate project** from the Website UI/UX redesign (see `../website-uiux/HANDOFF.md`). Record only Concierge work here.
 

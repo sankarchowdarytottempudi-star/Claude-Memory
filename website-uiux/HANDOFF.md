@@ -2,12 +2,14 @@
 
 > "Website UI/UX redesign" = the TraceIT (Pulsedeck) monitoring platform work. This is a **separate project** from the AROYA Concierge page redesign (see `../concierge/HANDOFF.md`). Record only this project's work here.
 
-_Last updated: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
+_Last updated: 2026-10-09 (account 1 daily sync: no new activity since the 8 Oct evening sync; state below unchanged). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
 
 **Still open from Part B (not mentioned in Part A, do not lose):**
 - Verify the 02:30 UTC 9 Oct nightly backup (encrypted, uploaded to Backblaze, no credential errors).
 - Rotate the Backblaze B2 key and the backup passphrase (they were pasted in a chat).
 - docker-compose backup service fix and BACKUP_S3_* mapping, if not already in a deployed build.
+
+**As of 9 Oct daily sync:** no result has been recorded yet for the 02:30 UTC 9 Oct nightly backup run, for gate 673607ad6, or for Sankar's two open answers (db-sys-api RTF split; Nightly Migration scope). These remain the first things to check.
 
 The IDE prompt sent on 8 Oct evening is saved in `ide-prompt-2026-10-08-evening.md` next to this file.
 
