@@ -2,7 +2,7 @@
 
 > "Website UI/UX redesign" = the TraceIT (Pulsedeck) monitoring platform work. This is a **separate project** from the AROYA Concierge page redesign (see `../concierge/HANDOFF.md`). Record only this project's work here.
 
-_Last updated: 2026-10-09 (account 1 daily sync: no new activity since the 8 Oct evening sync; state below unchanged). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
+_Last updated: 2026-10-11 (account 1 daily sync: no new activity since the 8 Oct evening sync — no commits, "[account 2]" notes or memory changes; state below unchanged). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
 
 **Still open from Part B (not mentioned in Part A, do not lose):**
 - Verify the 02:30 UTC 9 Oct nightly backup (encrypted, uploaded to Backblaze, no credential errors).

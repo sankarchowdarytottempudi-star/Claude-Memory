@@ -1,6 +1,6 @@
 # Full memory export — account 1 (sankarchowdary.tottempudi@gmail.com)
 
-_Exported: 2026-10-09. Refreshed daily by account 1's scheduled task._
+_Exported: 2026-10-11. Refreshed daily by account 1's scheduled task._
 
 This is everything Claude remembers about Sankar in account 1, copied file by file. Each `### /path.md` section below is one memory file with its original content.
 
@@ -76,6 +76,7 @@ aliases: [AROYA Concierge, Aroya Cruises Reservation Website Revamp, AROYA]
 [stated] Concierge state as of 8 Oct 2026 (full history in Claude-Memory repo concierge/HANDOFF.md): layout 30% chat / 70% stage (changed from 40/60); "Pay full" opens Teller in a new window (changed from same-tab); add-on rules follow the Guest Enhancements page; whole Concierge at 0.8× scale; test site aroya-test.tottechsolutions.com; IDE (Claude Code in VS Code) works in C:\Users\tlsch\Downloads\Aroya_Concierge_export; live build ecaa3a6, rollback target 16d5ce0; Pay proof still needs Sankar's own typed approval
 [stated] Concierge decisions 8 Oct 2026 evening: removal is final at FAMILY level and leaves the slot empty (changed from item-level) — removing e.g. "Ultimate Dining" declines that whole bundle/excursion family, nothing refilled; transport/transfer is never an excursion, offered only in a separate Transfers option; add-on/excursion tests use real UAT catalogue fixtures; guest form phone codes sorted ascending, preselected from nationality (manual pick never overwritten, fallback saved profile code else +966); Traveller 1's shared fields (email, phone, nationality, residence, city, passport issuing country) copied to travellers 2+, personal fields never copied
 [stated] Concierge status 8 Oct evening: live build 7a93ea0 (also the rollback target, previously ecaa3a6); 437c4c1 and bb59845 built locally, not deployed; CRITICAL open defects: Ultimate bundle refill after removal and transport added as excursions (fix prompt sent to IDE); 164 of 207 places have own photo, 43 need AROYA images
+[stated] Concierge delivery process (9 Oct 2026): IDE must never sit idle — build the next slice while the current one is gated/deployed — but each slice (S2, then S3, then S4) gets its own separate gate, deploy and live checks; never combine slices into one deploy
 ```
 
 ### /areas/claude-memory-sync.md
@@ -157,6 +158,18 @@ aliases: [TraceIT, traceit-tottech.com, TotTech]
 ## Priority Order
 - [stated] Next focus: performance and /remediation, then CMDB/Asset Management
 - [stated] Working rule: fix issues, do not investigate or reinvestigate without an error; fix whatever is in each session's bucket; CPU and memory utilization are high priority if they arise; do not stop or freeze work
+```
+
+### /areas/bank-reconciliation.md
+
+```
+---
+name: bank-reconciliation
+description: Bank Reconciliation work Sankar tracks as PM with developer Suresh Cbylappa — Oct 2026 sprint and Kanban board
+aliases: [Bank Reconciliation, bank recon, Bank reconciliation tasks tracking]
+---
+- [stated] Sankar tracks the Bank Reconciliation tasks (2 open tasks) as PM with developer Suresh Cbylappa; plan set Oct 2026: dev complete by Wed, testing from Wed, everything done by Fri
+- [stated] created an epic named "Bank reconciliation tasks tracking" to track this work
 ```
 
 ### /areas/cowork-pm-toolkit.md
@@ -402,6 +415,17 @@ aliases: [tottechsolutions.com, company website, website SEO]
 - Set up Google Analytics 4 tracking
 - Create FAQ page
 - Optimize product page descriptions
+```
+
+### /people/durga.md
+
+```
+---
+name: durga
+description: Durga — Sankar's IT director; set the deadline and receives status updates for the Bank Reconciliation work
+aliases: [Durga]
+---
+- [stated] Durga is Sankar's IT director; Sankar sends him status update emails on [[bank-reconciliation]]
 ```
 
 ### /people/fasih.md
