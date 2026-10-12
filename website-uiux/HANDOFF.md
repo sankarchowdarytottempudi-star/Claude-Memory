@@ -2,14 +2,27 @@
 
 > "Website UI/UX redesign" = the TraceIT (Pulsedeck) monitoring platform work. This is a **separate project** from the AROYA Concierge page redesign (see `../concierge/HANDOFF.md`). Record only this project's work here.
 
-_Last updated: 2026-10-11 (account 1 daily sync: no new activity since the 8 Oct evening sync — no commits, "[account 2]" notes or memory changes; state below unchanged). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
+_Last updated: 2026-10-12 (account 1 daily sync: new on-call voice-calling decisions from account 1 memory added below; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-11 daily sync (no activity). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
 
 **Still open from Part B (not mentioned in Part A, do not lose):**
 - Verify the 02:30 UTC 9 Oct nightly backup (encrypted, uploaded to Backblaze, no credential errors).
 - Rotate the Backblaze B2 key and the backup passphrase (they were pasted in a chat).
 - docker-compose backup service fix and BACKUP_S3_* mapping, if not already in a deployed build.
 
-**As of 9 Oct daily sync:** no result has been recorded yet for the 02:30 UTC 9 Oct nightly backup run, for gate 673607ad6, or for Sankar's two open answers (db-sys-api RTF split; Nightly Migration scope). These remain the first things to check.
+**New since 8 Oct (from account 1 memory, Oct 2026) — On-call voice calling:**
+- Requirement: voice calling to the on-call roster person, both a Teams call and a mobile phone call, that reads out the Teams alert message. Sankar wants it zero-cost (no paid Twilio on our side). Alert volume is about 5–10 per minute; some customers may be outside India.
+- Decision — escalation: system down about 5 min → Teams call (primary) → if not answered, declined or not acknowledged → phone call to the same roster person → then the next roster person.
+- Decision — phone channel chosen per workspace: **Exotel** (account owned by TraceIT/TSS) for Indian numbers (chosen instead of a Samsung SIM gateway); the **customer's own Twilio account** for other countries.
+- Decision — the call plays the alert message in-call, with keypress acknowledgement.
+- Status: TSS Pvt Ltd is signing up for an Exotel Voice API trial. No build or commit recorded yet.
+
+**As of 12 Oct daily sync:** still no result recorded for the 02:30 UTC 9 Oct nightly backup run, for gate 673607ad6, or for Sankar's two open answers (db-sys-api RTF split; Nightly Migration scope). These remain the first things to check.
+
+**Next steps (as of 12 Oct):**
+1. Check the 02:30 UTC 9 Oct (and later) nightly backup result and gate 673607ad6's result; then continue the Part A execution timeline (revenue step 2 commit → Custom Query → D365 / Daily monitoring / push fix).
+2. Get Sankar's answers: db-sys-api RTF split (yes/no) and Nightly Migration scope.
+3. Rotate the Backblaze B2 key, backup passphrase and Graylog admin password (Sankar/operations).
+4. Once the Exotel Voice API trial is active, build the on-call escalation (Teams call → phone call → next roster person, per-workspace phone channel, keypress acknowledgement). (Suggestion: ship it as its own gated deploy.)
 
 The IDE prompt sent on 8 Oct evening is saved in `ide-prompt-2026-10-08-evening.md` next to this file.
 

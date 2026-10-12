@@ -1,6 +1,6 @@
 # Project: AROYA Concierge Page Redesign — Handoff
 
-_Last updated: 2026-10-11 (account 1 daily sync: one new process decision from 9 Oct added — slice-by-slice delivery; build state below unchanged since 8 Oct evening). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
+_Last updated: 2026-10-12 (account 1 daily sync: AROYA terminology, a cabin-comparison requirement and the production-support note added from account 1 memory; build state unchanged since 8 Oct evening). Earlier: 2026-10-11 (slice-by-slice delivery rule added). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
 
 > This is a **separate project** from the Website UI/UX redesign (see `../website-uiux/HANDOFF.md`). Record only Concierge work here.
 
@@ -63,6 +63,8 @@ _Last updated: 2026-10-11 (account 1 daily sync: one new process decision from 9
   - the code is preselected from the guest's nationality; a manual pick is never overwritten; fallback = the saved profile's code, else +966; the picker is searchable.
 - **Copy Traveller 1's details to other travellers** (8 Oct): shared fields (email, phone code + mobile, nationality, country of residence, city, passport issuing country) are prefilled for travellers 2+, editable, with a "Same as Traveller 1" note. Personal fields (title, names, gender, DOB, passport number/expiry) are never copied. If Seaware requires a field to be unique per guest, follow the regular booking flow's rule.
 - **Guest form layout** (8 Oct): email/phone fields show in full (no clipped "+966"); "Call AROYA" and "WhatsApp AROYA" are two side-by-side buttons (no "·" line).
+- **AROYA terms** (added 12 Oct from account 1 memory): "itinerary" means a voyage; "package" means add-ons and shore excursions (shorex). Use AROYA's meaning when reading their requests.
+- **Cabin comparison** (requirement): the Concierge compares any cabin with any other cabin available on that voyage, not only balcony vs sea view.
 - The opening options always show on open and after New conversation: "Guide me / I know what I want", then "Sign in / Continue as a guest".
 
 **Deploy / test process (agreed)**
@@ -123,6 +125,7 @@ _Last updated: 2026-10-11 (account 1 daily sync: one new process decision from 9
   - **164 of 207 places now have their own photo** (162 → 164 on the rerun; ITCAG and OMMCT improved). The other **43 show the port photo**. Throttling is not the cause: these need AROYA's images.
   - Backup before the rerun: `/opt/aroya-broker/backups/destinations-before-rerun-20261008.tgz` (on the VM).
   - The nightly schedule is still OFF.
+- **Production support (plan, Oct 2026):** Sankar plans to monitor AROYA production support through TraceIT (the monitoring platform; that work is tracked in `../website-uiux/`). No details recorded yet.
 - **Redis:** OFF until Sankar sets a password on the VM (steps in `docs/production/redis-secret-steps.md`). The broker uses its in-memory cache meanwhile, so guests lose their session on each deploy. The old Redis was internal-only, never exposed.
 - **Useful repo docs:**
   - `docs/concierge/aroya-inputs-needed.md`
@@ -202,11 +205,12 @@ _Last updated: 2026-10-11 (account 1 daily sync: one new process decision from 9
 - [ ] Content job nightly schedule + AROYA approval of auto content
 - [ ] Honest live speed measurement; holdout-v6
 - [ ] Updated customer test script docx; journey video
+- [ ] Cabin comparison: any cabin vs any cabin on the voyage (requirement; build status not recorded)
 - [ ] Smart-selling (price-behaviour recommendations) — not started
 
 ## 8. Next steps (exact)
 
-1. Wait for the IDE's "Ready to ship" report on bb59845 (no newer IDE report recorded as of 11 Oct). Each slice ships on its own gate and deploy; don't accept a combined deploy. It must also include the **Ultimate refill + transport fix** (with real-catalogue fixture tests and live screenshots) and the **43-places list**. If the refill fix is missing, send it back before deploying.
+1. Wait for the IDE's "Ready to ship" report on bb59845 (no newer IDE report recorded as of 12 Oct). Each slice ships on its own gate and deploy; don't accept a combined deploy. It must also include the **Ultimate refill + transport fix** (with real-catalogue fixture tests and live screenshots) and the **43-places list**. If the refill fix is missing, send it back before deploying.
 2. Sankar types the approval himself: `confirmed: deploy <build>` (the build number is in the IDE's "Ready to ship" line).
 3. After it is live and green, Sankar tests:
    - add Ultimate Dining → remove it → nothing replaces it; repeat for an excursion
@@ -217,7 +221,8 @@ _Last updated: 2026-10-11 (account 1 daily sync: one new process decision from 9
 4. Send Fasih the progress email (drafted in the architect chat). Once bb59845 is live, move the nationality/copy items from "In progress" to "Completed". Include the 43 photos and Kusadasi in the inputs.
 5. Optional: the Pay proof (Sankar types "approved: 1 booking on <build> for the Pay proof").
 6. Sankar: set the Redis password on the VM (`docs/production/redis-secret-steps.md`), then the IDE turns Redis on.
-7. Later: content job nightly schedule (after AROYA approves the auto content), honest live speed measurement, holdout-v6, customer test script docx, journey video.
+7. (Suggestion) Confirm with the IDE whether the any-cabin-vs-any-cabin comparison is already built; if not, queue it as its own slice.
+8. Later: content job nightly schedule (after AROYA approves the auto content), honest live speed measurement, holdout-v6, customer test script docx, journey video.
 
 ## 9. Where things live
 

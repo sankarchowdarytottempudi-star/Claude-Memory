@@ -1,6 +1,6 @@
 # Full memory export — account 1 (sankarchowdary.tottempudi@gmail.com)
 
-_Exported: 2026-10-11. Refreshed daily by account 1's scheduled task._
+_Exported: 2026-10-12. Refreshed daily by account 1's scheduled task._
 
 This is everything Claude remembers about Sankar in account 1, copied file by file. Each `### /path.md` section below is one memory file with its original content.
 
@@ -76,7 +76,9 @@ aliases: [AROYA Concierge, Aroya Cruises Reservation Website Revamp, AROYA]
 [stated] Concierge state as of 8 Oct 2026 (full history in Claude-Memory repo concierge/HANDOFF.md): layout 30% chat / 70% stage (changed from 40/60); "Pay full" opens Teller in a new window (changed from same-tab); add-on rules follow the Guest Enhancements page; whole Concierge at 0.8× scale; test site aroya-test.tottechsolutions.com; IDE (Claude Code in VS Code) works in C:\Users\tlsch\Downloads\Aroya_Concierge_export; live build ecaa3a6, rollback target 16d5ce0; Pay proof still needs Sankar's own typed approval
 [stated] Concierge decisions 8 Oct 2026 evening: removal is final at FAMILY level and leaves the slot empty (changed from item-level) — removing e.g. "Ultimate Dining" declines that whole bundle/excursion family, nothing refilled; transport/transfer is never an excursion, offered only in a separate Transfers option; add-on/excursion tests use real UAT catalogue fixtures; guest form phone codes sorted ascending, preselected from nationality (manual pick never overwritten, fallback saved profile code else +966); Traveller 1's shared fields (email, phone, nationality, residence, city, passport issuing country) copied to travellers 2+, personal fields never copied
 [stated] Concierge status 8 Oct evening: live build 7a93ea0 (also the rollback target, previously ecaa3a6); 437c4c1 and bb59845 built locally, not deployed; CRITICAL open defects: Ultimate bundle refill after removal and transport added as excursions (fix prompt sent to IDE); 164 of 207 places have own photo, 43 need AROYA images
+[stated] AROYA terms: "itinerary" means a voyage; "package" means add-ons and shore excursions (shorex). Concierge cabin comparison should cover any cabin vs any cabin available on that voyage, not just balcony vs sea view
 [stated] Concierge delivery process (9 Oct 2026): IDE must never sit idle — build the next slice while the current one is gated/deployed — but each slice (S2, then S3, then S4) gets its own separate gate, deploy and live checks; never combine slices into one deploy
+[stated] Planning AROYA production support monitored through [[traceit]] (Oct 2026)
 ```
 
 ### /areas/claude-memory-sync.md
@@ -139,6 +141,8 @@ aliases: [TraceIT, traceit-tottech.com, TotTech]
 - [stated] Never force-push, never rebase; merge origin/main only
 - [stated] Per-workspace browser device registration and campaigns
 - [stated] Microsoft Teams on-call calling from the roster when a healthy system becomes unreachable
+- [stated] Adding voice calling (Teams call + mobile phone call) to the on-call roster person that reads out the Teams alert message; wants it zero-cost, no Twilio — open to an Indian SIM in an Android phone as gateway; alert volume ~5–10/min; may have customers outside India (Oct 2026)
+- [stated] Calling decision (Oct 2026): Teams call is primary; escalation = system down ~5 min → Teams call → if not answered/declined/unacknowledged, phone call to same roster person → then next roster person; phone channel chosen per workspace; chose Exotel (TraceIT/TSS-owned account) for Indian numbers instead of a Samsung SIM gateway, customer's own Twilio account for other countries; call plays the message in-call with keypress acknowledgement; signing TSS Pvt Ltd up for an Exotel Voice API trial (Oct 2026)
 - [stated] Auto-refresh after deploys so users don't need to clear cache or hard-refresh
 - [stated] Secrets and tokens never leave Sankar's machine; keystore and passphrase referenced by path only; no secrets, PII, or customer names in the tree or reports
 - [stated] Production data must not be touched; demo databases or parallel local servers may be closed; only one server and the cloud required
