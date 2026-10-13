@@ -1,6 +1,6 @@
 # Project: AROYA Concierge Page Redesign — Handoff
 
-_Last updated: 2026-10-12 (account 1 daily sync: AROYA terminology, a cabin-comparison requirement and the production-support note added from account 1 memory; build state unchanged since 8 Oct evening). Earlier: 2026-10-11 (slice-by-slice delivery rule added). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
+_Last updated: 2026-10-13 (account 1 daily sync: new 12 Oct product direction — conversational AI first, booking from chat context, portable AI setup for AROYA's on-prem GPUs, CMS-API-driven upsell — added from account 1 memory; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-12 (AROYA terms, cabin comparison, production-support note). Earlier: 2026-10-11 (slice-by-slice delivery rule added). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
 
 > This is a **separate project** from the Website UI/UX redesign (see `../website-uiux/HANDOFF.md`). Record only Concierge work here.
 
@@ -65,6 +65,9 @@ _Last updated: 2026-10-12 (account 1 daily sync: AROYA terminology, a cabin-comp
 - **Guest form layout** (8 Oct): email/phone fields show in full (no clipped "+966"); "Call AROYA" and "WhatsApp AROYA" are two side-by-side buttons (no "·" line).
 - **AROYA terms** (added 12 Oct from account 1 memory): "itinerary" means a voyage; "package" means add-ons and shore excursions (shorex). Use AROYA's meaning when reading their requests.
 - **Cabin comparison** (requirement): the Concierge compares any cabin with any other cabin available on that voyage, not only balcony vs sea view.
+- **Product direction: a proper conversational AI** (Sankar, 12 Oct): guests can first chat generally (about voyages, ports, cabins, etc.), then say something like "book with what we discussed" and the Concierge books from that chat context. The current build was booking-only; this changes that.
+- **Portable AI setup** (12 Oct): AROYA will provide on-prem GPU servers, so the AI/model setup must be configurable and portable (not tied to one provider or host). Testing continues on aroya-test.tottechsolutions.com meanwhile. (Related earlier decision: the knowledge base lives in a GPU-based store AROYA provides.)
+- **Upsell data from AROYA's CMS API** (12 Oct): voyage, add-on and shorex upsell details will come from an AROYA CMS API that is not ready yet. Set up the flow now and connect it when the API is ready.
 - The opening options always show on open and after New conversation: "Guide me / I know what I want", then "Sign in / Continue as a guest".
 
 **Deploy / test process (agreed)**
@@ -207,6 +210,10 @@ _Last updated: 2026-10-12 (account 1 daily sync: AROYA terminology, a cabin-comp
 - [ ] Updated customer test script docx; journey video
 - [ ] Cabin comparison: any cabin vs any cabin on the voyage (requirement; build status not recorded)
 - [ ] Smart-selling (price-behaviour recommendations) — not started
+- [ ] Conversational AI: general chat first, then "book with what we discussed" books from chat context (direction set 12 Oct; build not started/recorded)
+- [ ] Configurable, portable AI setup for AROYA's on-prem GPU servers (12 Oct; build not recorded)
+- [ ] Upsell flow wired for AROYA's CMS API (API not ready yet; set up flow now, connect later)
+- [ ] Ask AROYA (via Fasih) for the on-prem GPU server details and the CMS API timeline/spec (suggestion)
 
 ## 8. Next steps (exact)
 
@@ -222,7 +229,9 @@ _Last updated: 2026-10-12 (account 1 daily sync: AROYA terminology, a cabin-comp
 5. Optional: the Pay proof (Sankar types "approved: 1 booking on <build> for the Pay proof").
 6. Sankar: set the Redis password on the VM (`docs/production/redis-secret-steps.md`), then the IDE turns Redis on.
 7. (Suggestion) Confirm with the IDE whether the any-cabin-vs-any-cabin comparison is already built; if not, queue it as its own slice.
-8. Later: content job nightly schedule (after AROYA approves the auto content), honest live speed measurement, holdout-v6, customer test script docx, journey video.
+8. New direction (12 Oct): brief the IDE on the conversational-AI change — general chat first, then "book with what we discussed" books from the chat context; make the AI/model setup configurable and portable for AROYA's on-prem GPUs; build the upsell flow against a stubbed AROYA CMS API so it can be connected when the API is ready. (Suggestion: plan it as its own slices after the bb59845/refill slice, each with its own gate and deploy, per the slice rule.)
+9. (Suggestion) Add to the Fasih inputs list: on-prem GPU server details (specs, access, timing) and the CMS API spec/timeline.
+10. Later: content job nightly schedule (after AROYA approves the auto content), honest live speed measurement, holdout-v6, customer test script docx, journey video.
 
 ## 9. Where things live
 

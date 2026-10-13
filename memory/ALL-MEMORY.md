@@ -1,6 +1,6 @@
 # Full memory export — account 1 (sankarchowdary.tottempudi@gmail.com)
 
-_Exported: 2026-10-12. Refreshed daily by account 1's scheduled task._
+_Exported: 2026-10-13. Refreshed daily by account 1's scheduled task._
 
 This is everything Claude remembers about Sankar in account 1, copied file by file. Each `### /path.md` section below is one memory file with its original content.
 
@@ -79,6 +79,7 @@ aliases: [AROYA Concierge, Aroya Cruises Reservation Website Revamp, AROYA]
 [stated] AROYA terms: "itinerary" means a voyage; "package" means add-ons and shore excursions (shorex). Concierge cabin comparison should cover any cabin vs any cabin available on that voyage, not just balcony vs sea view
 [stated] Concierge delivery process (9 Oct 2026): IDE must never sit idle — build the next slice while the current one is gated/deployed — but each slice (S2, then S3, then S4) gets its own separate gate, deploy and live checks; never combine slices into one deploy
 [stated] Planning AROYA production support monitored through [[traceit]] (Oct 2026)
+[stated] Concierge direction (12 Oct 2026): must be a proper conversational AI. Guests chat generally first, then say "book with what we discussed" to book from the chat context; the current build was booking-only. AROYA will provide on-prem GPU servers, so the AI setup must be configurable and portable; testing on aroya-test.tottechsolutions.com meanwhile. Voyage, add-on and shorex upsell details will come from an AROYA CMS API that isn't ready yet; the flow is to be set up now and connected when the API is ready.
 ```
 
 ### /areas/claude-memory-sync.md
