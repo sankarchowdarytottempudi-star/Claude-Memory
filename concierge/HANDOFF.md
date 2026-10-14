@@ -1,6 +1,6 @@
 # Project: AROYA Concierge Page Redesign — Handoff
 
-_Last updated: 2026-10-13 (account 1 daily sync: new 12 Oct product direction — conversational AI first, booking from chat context, portable AI setup for AROYA's on-prem GPUs, CMS-API-driven upsell — added from account 1 memory; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-12 (AROYA terms, cabin comparison, production-support note). Earlier: 2026-10-11 (slice-by-slice delivery rule added). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
+_Last updated: 2026-10-14 (account 1 daily sync: no new activity — no commits, no "[account 2]" notes, no new memory). Earlier: 2026-10-13 (account 1 daily sync: new 12 Oct product direction — conversational AI first, booking from chat context, portable AI setup for AROYA's on-prem GPUs, CMS-API-driven upsell — added from account 1 memory; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-12 (AROYA terms, cabin comparison, production-support note). Earlier: 2026-10-11 (slice-by-slice delivery rule added). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
 
 > This is a **separate project** from the Website UI/UX redesign (see `../website-uiux/HANDOFF.md`). Record only Concierge work here.
 
