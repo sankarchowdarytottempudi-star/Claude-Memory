@@ -2,7 +2,7 @@
 
 > "Website UI/UX redesign" = the TraceIT (Pulsedeck) monitoring platform work. This is a **separate project** from the AROYA Concierge page redesign (see `../concierge/HANDOFF.md`). Record only this project's work here.
 
-_Last updated: 2026-10-14 (account 1 daily sync: no new activity). Earlier: 2026-10-13 (no new activity). Earlier: 2026-10-12 (account 1 daily sync: new on-call voice-calling decisions from account 1 memory added below; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-11 daily sync (no activity). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
+_Last updated: 2026-10-15 (account 2: new requirement — Assistant conversation mode). Earlier: 2026-10-14 (account 1 daily sync: no new activity). Earlier: 2026-10-13 (no new activity). Earlier: 2026-10-12 (account 1 daily sync: new on-call voice-calling decisions from account 1 memory added below; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-11 daily sync (no activity). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
 
 **Still open from Part B (not mentioned in Part A, do not lose):**
 - Verify the 02:30 UTC 9 Oct nightly backup (encrypted, uploaded to Backblaze, no credential errors).
@@ -15,6 +15,11 @@ _Last updated: 2026-10-14 (account 1 daily sync: no new activity). Earlier: 2026
 - Decision — phone channel chosen per workspace: **Exotel** (account owned by TraceIT/TSS) for Indian numbers (chosen instead of a Samsung SIM gateway); the **customer's own Twilio account** for other countries.
 - Decision — the call plays the alert message in-call, with keypress acknowledgement.
 - Status: TSS Pvt Ltd is signing up for an Exotel Voice API trial. No build or commit recorded yet.
+
+**New 15 Oct (account 2) — Assistant conversation mode:**
+- Requirement (Sankar, 15 Oct): the TraceIT Assistant must be an interactive, multi-turn conversation, the same way the AROYA Concierge works — free chat, follow-ups keep context, and "do what we discussed" acts on the conversation.
+- IDE prompt saved as `ide-prompt-2026-10-15-assistant-conversation.md` (Step 0 read-and-report, then slices C1 core, C2 grounded live-data answers, C3 side panel, C4 confirmed actions, C5 knowledge + portable model setup). Each slice its own gate and deploy, new flag off in production. Status: prompt written, not yet sent to the IDE.
+- (Suggestion) Queue after release 1 (6fc6ba794) deploys and Train 2 is gated, and not on the production host.
 
 **As of 13 Oct daily sync:** still no result recorded for the 02:30 UTC 9 Oct nightly backup run, for gate 673607ad6, or for Sankar's two open answers (db-sys-api RTF split; Nightly Migration scope). These remain the first things to check.
 
