@@ -16,6 +16,8 @@ _Last updated: 2026-10-15 evening (account 2: release 1 final report; earlier to
 - Decision — the call plays the alert message in-call, with keypress acknowledgement.
 - Status: TSS Pvt Ltd is signing up for an Exotel Voice API trial. No build or commit recorded yet.
 
+**ON HOLD until the weekend of 17–18 Oct (Sankar, 15 Oct 18:26 IST):** outage follow-up — outage email to Fasih (draft in account 2 chat), naming the night on-call person, ordering the gate host (docs/runbooks/order-the-gate-host.md), relay restart on the DB VM (docs/runbooks/relay-restart-db-vm.md), and approval of DB lockdown step 2's quiet hour. No DB VM changes before then.
+
 **15 Oct final report (account 2, from the IDE's report pasted by Sankar):**
 - Release 1 (712256d5f) live since 12:03:44 UTC; gate green on the 2nd run (20,170 tests); 0 customer timeouts since the switch; canary passed 12:06.
 - Train 2 (shell streams first, strip intervals, Executive 2-minute floor, SDK flush, loader centred 96 px full brightness) in its gate since 12:25 UTC.
