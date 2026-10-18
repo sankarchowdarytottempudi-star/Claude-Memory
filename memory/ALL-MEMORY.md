@@ -1,6 +1,6 @@
 # Full memory export — account 1 (sankarchowdary.tottempudi@gmail.com)
 
-_Exported: 2026-10-14. Refreshed daily by account 1's scheduled task._
+_Exported: 2026-10-18. Refreshed daily by account 1's scheduled task._
 
 This is everything Claude remembers about Sankar in account 1, copied file by file. Each `### /path.md` section below is one memory file with its original content.
 
@@ -109,6 +109,10 @@ aliases: [Website UI/UX redesign, website redesign, UI/UX redesign, TraceIT rede
 - [stated] TraceIT state 8 Oct 2026 evening: live build 45be2cdca (page-click analytics and "By system" removed, revenue step 1 tables with RLS, dashboards grouped by connection type); rollback target baedebe58; gate 673607ad6 (local-time sweep + Mule ship stream to Graylog) running; revenue dashboard step 2 (Summary + Buckets tabs) written and tested, awaiting commit; relay agent on graylog-01 decommissioned
 - [stated] TraceIT decisions 8 Oct: Custom Query dashboard uses CodeMirror (changed from Monaco); only Owner/Admin write/save SQL, Analyst/Workspace Admin edit own, everyone else runs saved queries read-only with 30 s timeout, 10k row cap, audit and PII masking (changed from all users writing); revenue counts completed bookings only, SAR or USD never mixed, guests identified by booking reference not email; analytics moved from page-click tracking to transaction-based revenue
 - [stated] TraceIT open questions for Sankar (8 Oct): split db-sys-api cards by Runtime Fabric target (yes/no)? Nightly migration scope — Backblaze backup/restore verification or a DB migration? Graylog admin password was pasted in chat and should be rotated, with a read-only Reader user
+- [stated] TraceIT Assistant requirement (15 Oct 2026): must be an interactive multi-turn conversation like the AROYA Concierge — free chat, follow-ups keep context, "do what we discussed" acts on it; delivered as slices C0 masking (first), C1 core, C2 grounded live data, C3 side panel, C4 confirmed actions, C5 knowledge + portable model setup, each its own gate and deploy, flag off in production; Assistant switched OFF for the launch customer's workspace 15 Oct
+- [stated] TraceIT state 15–16 Oct 2026 (account 2): release 1 (712256d5f) live 15 Oct 12:03 UTC, 0 customer timeouts; Train 2 gate green, deploy started 13:36 UTC (verdict not reported); DB lockdown step 2 failed and caused a 4 h 15 min outage (02:00–06:15 Riyadh, 15 Oct), corrected script waits for Sankar's approval; 15 Oct nightly backup failed, manual backup done and test-restored; combined gate for trains 3 + 4 + muted rule went red 16 Oct (one advisory-lock setup timeout), nothing deployed
+- [stated] Sankar (15 Oct 2026): outage follow-up held until the weekend of 17–18 Oct — email to Fasih, naming a night on-call person (03:00 Riyadh slot empty), ordering a separate gate host (Contabo Cloud VPS 8, ~€14/month, nothing bought), DB VM relay restart, approving DB lockdown step 2's quiet hour; no DB VM changes before then
+- [stated] TraceIT muted rule (15 Oct 2026): muted/paused systems raise nothing; muting closes open alerts with reason "muted", audited; Voyages stays Paused, never Muted
 ```
 
 ### /areas/traceit.md
@@ -491,6 +495,7 @@ description: Sankar's planetary-ephemeris / aspect-timing analysis for market ho
 - [stated] also runs a planet-triangle study (Oct 2026): three planets whose pairwise angles total 360°, each pair ≥4° apart, one triangle planet aspecting an outside planet (0–180 set), market hours weekdays only, matched to Nifty file "change" as "Change in Nifty"; chose to list only triangles newly formed during market hours; wants a chart wheel beside each row with zodiac ring, wheel running clockwise, same-angle lines same colour; element colours Fire red, Water dark blue, Earth green, Air black, Sky pink
 - [stated] also runs a "balancing planet" study (Oct 2026): a planet equidistant from and centred between two others, aspected by another planet; market hours weekdays only; columns date, time, planet1–3, distances 1&2/1&3/2&3, balancing planet, aspecting planet & aspect, chart wheel; wheel to draw only the planets involved, run clockwise; element colours changed to Fire red, Water blue, Earth green, Air yellow, Sky black
 - [stated] also wants a price-to-planet aspect study (Oct 2026) as a standalone Windows program with Excel in/out: daily Open/High/Low/Close vs ephemeris, output columns "Open 0°…180°" (0, 30, 60, 90, 120, 150, 180) for each of O/H/L/C naming the planets, blank when none; chose price degree = price mod 360, orb ±1°, Open compared at 9:15, Close at 15:30, High/Low at any slot 9:15–15:30
+- [stated] also runs a price-strata aspect study (Oct 2026): daily ephemeris file + Excel input of Date/Open (High/Low as available), price converted to degrees, reporting price levels aspected by planets (positive 30/60/120/150, negative 45/90/180) assuming moves of ±100/200/300 pts from Open as strata 1–3; wants positive and negative aspects shown in separate columns, and a strategy report (probable day levels) included in every output
 ```
 
 ### /topics/career.md

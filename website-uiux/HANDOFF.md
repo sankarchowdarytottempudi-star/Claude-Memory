@@ -2,10 +2,10 @@
 
 > "Website UI/UX redesign" = the TraceIT (Pulsedeck) monitoring platform work. This is a **separate project** from the AROYA Concierge page redesign (see `../concierge/HANDOFF.md`). Record only this project's work here.
 
-_Last updated: 2026-10-15 evening (account 2: release 1 final report; earlier today: Assistant conversation mode requirement). Earlier: 2026-10-14 (account 1 daily sync: no new activity). Earlier: 2026-10-13 (no new activity). Earlier: 2026-10-12 (account 1 daily sync: new on-call voice-calling decisions from account 1 memory added below; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-11 daily sync (no activity). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
+_Last updated: 2026-10-18 (account 1 daily sync: account 2's 15–16 Oct notes merged below and into account 1 memory; no new account 1 activity; no account 2 notes for 17–18 Oct). Earlier: 2026-10-16 (account 2: trains 3 + 4 gate red, held). Earlier: 2026-10-15 evening (account 2: release 1 final report; earlier today: Assistant conversation mode requirement). Earlier: 2026-10-14 (account 1 daily sync: no new activity). Earlier: 2026-10-13 (no new activity). Earlier: 2026-10-12 (account 1 daily sync: new on-call voice-calling decisions from account 1 memory added below; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-11 daily sync (no activity). Previous update: 2026-10-08 evening (17:30 UTC). Part A is the newest state. Part B is the earlier 8 Oct state, kept because some items there are still open (backup verification, key rotation, email batching, mobile design)._
 
 **Still open from Part B (not mentioned in Part A, do not lose):**
-- Verify the 02:30 UTC 9 Oct nightly backup (encrypted, uploaded to Backblaze, no credential errors).
+- Verify the 02:30 UTC 9 Oct nightly backup (encrypted, uploaded to Backblaze, no credential errors). — Partly done: 15 Oct manual backup verified and test-restored (account 2 log); the 15 Oct nightly failed (outage password); 9 Oct result still unrecorded; Backblaze read-back of the 15 Oct file still pending.
 - Rotate the Backblaze B2 key and the backup passphrase (they were pasted in a chat).
 - docker-compose backup service fix and BACKUP_S3_* mapping, if not already in a deployed build.
 
@@ -35,11 +35,21 @@ _Last updated: 2026-10-15 evening (account 2: release 1 final report; earlier to
 
 **As of 13 Oct daily sync:** still no result recorded for the 02:30 UTC 9 Oct nightly backup run, for gate 673607ad6, or for Sankar's two open answers (db-sys-api RTF split; Nightly Migration scope). These remain the first things to check.
 
-**Next steps (as of 13 Oct, unchanged since 12 Oct):**
-1. Check the 02:30 UTC 9 Oct (and later) nightly backup result and gate 673607ad6's result; then continue the Part A execution timeline (revenue step 2 commit → Custom Query → D365 / Daily monitoring / push fix).
-2. Get Sankar's answers: db-sys-api RTF split (yes/no) and Nightly Migration scope.
-3. Rotate the Backblaze B2 key, backup passphrase and Graylog admin password (Sankar/operations).
-4. Once the Exotel Voice API trial is active, build the on-call escalation (Teams call → phone call → next roster person, per-workspace phone channel, keypress acknowledgement). (Suggestion: ship it as its own gated deploy.)
+**16 Oct (account 2):**
+- Combined gate for trains 3 + 4 + muted rule (on 91a769e1e) went red overnight: one untouched suite (alert-routing routes test) timed out in setup waiting for the test DB advisory lock; 20,378 tests passed. The first gate's two stale tests were fixed in 954467698. Nothing pushed or deployed; IDE stopped as instructed.
+- Still unreported: Train 2 deploy verdict (deploy started 15 Oct 13:36 UTC), quiet-window speed re-measure, Backblaze read-back of the 15 Oct backup, contents of train 4.
+- Also from the 15 Oct log: Assistant switched OFF for the launch customer's workspace (12:38 UTC); C0 masking slice now comes before C1. Muted rule: muted/paused systems raise nothing; muting closes open alerts with reason "muted", audited. Teams channel widening waits for Sankar's confirmation after crash alerts are re-judged.
+- (Suggestion, account 2) Durable fix for the advisory-lock hook timeout as its own train; a separate gate host would also remove the host-load cause.
+
+**As of 18 Oct daily sync:** no account 2 notes since 16 Oct 02:18 UTC. The outage follow-up was held for this weekend (17–18 Oct); no outcome recorded yet.
+
+**Next steps (as of 18 Oct):**
+1. Sankar's weekend items (held from 15 Oct): send the outage email to Fasih (draft in account 2 chat); name the night on-call person (name, mobile with country code, email, hours); order the gate host (docs/runbooks/order-the-gate-host.md); restart the DB VM relay (docs/runbooks/relay-restart-db-vm.md); approve a quiet hour for DB lockdown step 2 (only after backup + dry run).
+2. Get from the IDE: Train 2 deploy verdict, Backblaze read-back of the 15 Oct backup, 02:30 UTC nightly backup results since 16 Oct, quiet-window speed re-measure, contents of train 4.
+3. Re-run the trains 3 + 4 + muted-rule gate (red on the advisory-lock timeout) and deploy when green; then decide on widening the customer Teams channel (account 2 suggested outages-only until Train 3 is live; Sankar to confirm he made the 05:56 and 12:23 UTC 15 Oct changes).
+4. Assistant conversation mode: send `ide-prompt-2026-10-15-assistant-conversation.md` slices C0 (masking) → C1…C5, each with its own gate and deploy, flag off in production.
+5. Still open from earlier: Sankar's answers on db-sys-api RTF split and Nightly Migration scope; rotate the Backblaze B2 key, backup passphrase and Graylog admin password; DB lockdown steps 3 and 5 and Redis 6379 exposure; UTM exemption; 1d browser screenshots; customer confirmation page amount; night roster; macOS for iOS UIKit.
+6. Once the Exotel Voice API trial is active, build the on-call escalation (Teams call → phone call → next roster person, per-workspace phone channel, keypress acknowledgement). (Suggestion: ship it as its own gated deploy.)
 
 The IDE prompt sent on 8 Oct evening is saved in `ide-prompt-2026-10-08-evening.md` next to this file.
 

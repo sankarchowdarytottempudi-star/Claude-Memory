@@ -1,6 +1,6 @@
 # Project: AROYA Concierge Page Redesign — Handoff
 
-_Last updated: 2026-10-14 (account 1 daily sync: no new activity — no commits, no "[account 2]" notes, no new memory). Earlier: 2026-10-13 (account 1 daily sync: new 12 Oct product direction — conversational AI first, booking from chat context, portable AI setup for AROYA's on-prem GPUs, CMS-API-driven upsell — added from account 1 memory; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-12 (AROYA terms, cabin comparison, production-support note). Earlier: 2026-10-11 (slice-by-slice delivery rule added). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
+_Last updated: 2026-10-18 (account 1 daily sync: no new activity — no commits, no "[account 2]" notes, no new memory since 14 Oct). Earlier: 2026-10-14 (no new activity). Earlier: 2026-10-13 (account 1 daily sync: new 12 Oct product direction — conversational AI first, booking from chat context, portable AI setup for AROYA's on-prem GPUs, CMS-API-driven upsell — added from account 1 memory; no commits or "[account 2]" notes; build state unchanged since 8 Oct evening). Earlier: 2026-10-12 (AROYA terms, cabin comparison, production-support note). Earlier: 2026-10-11 (slice-by-slice delivery rule added). Previous: 2026-10-08 evening (account 1 sync: 8 Oct afternoon → evening; earlier: full history upload 28 Sep – 8 Oct)_
 
 > This is a **separate project** from the Website UI/UX redesign (see `../website-uiux/HANDOFF.md`). Record only Concierge work here.
 
@@ -217,7 +217,7 @@ _Last updated: 2026-10-14 (account 1 daily sync: no new activity — no commits,
 
 ## 8. Next steps (exact)
 
-1. Wait for the IDE's "Ready to ship" report on bb59845 (no newer IDE report recorded as of 12 Oct). Each slice ships on its own gate and deploy; don't accept a combined deploy. It must also include the **Ultimate refill + transport fix** (with real-catalogue fixture tests and live screenshots) and the **43-places list**. If the refill fix is missing, send it back before deploying.
+1. Wait for the IDE's "Ready to ship" report on bb59845 (no newer IDE report recorded as of 18 Oct). Each slice ships on its own gate and deploy; don't accept a combined deploy. It must also include the **Ultimate refill + transport fix** (with real-catalogue fixture tests and live screenshots) and the **43-places list**. If the refill fix is missing, send it back before deploying.
 2. Sankar types the approval himself: `confirmed: deploy <build>` (the build number is in the IDE's "Ready to ship" line).
 3. After it is live and green, Sankar tests:
    - add Ultimate Dining → remove it → nothing replaces it; repeat for an excursion
